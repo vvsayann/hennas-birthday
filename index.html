@@ -10,9 +10,10 @@ margin: 0;
 font-family: 'Segoe UI', sans-serif;
 background: linear-gradient(135deg, #ffdde1, #ee9ca7, #ffd1dc);
 overflow-x: hidden;
+cursor: url('heart.png'), auto;
 }
 
-/* 🎁 INTRO */
+/* intro */
 #intro {
 position: fixed;
 top:0; left:0;
@@ -34,16 +35,15 @@ background:#ff4d6d;
 color:white;
 font-size:18px;
 cursor:pointer;
-margin-top:15px;
 }
 
-/* 💖 hearts animation */
+/* hearts */
 @keyframes floatUp {
 0% {transform:translateY(0); opacity:1;}
 100% {transform:translateY(-110vh); opacity:0;}
 }
 
-/* MAIN CONTENT */
+/* main */
 .container {
 max-width:850px;
 margin:60px auto;
@@ -63,18 +63,19 @@ line-height:1.8;
 white-space:pre-line;
 }
 
+/* gallery */
 .gallery {
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:10px;
 margin-top:20px;
 }
-
 .gallery img {
 width:100%;
 border-radius:15px;
 }
 
+/* button */
 button {
 margin-top:20px;
 padding:12px 25px;
@@ -85,13 +86,34 @@ border-radius:25px;
 cursor:pointer;
 }
 
-#secret {
-display:none;
-margin-top:15px;
+#secret { display:none; }
+
+/* side boxes */
+.side-box {
+position: fixed;
+top: 30%;
+width: 170px;
+padding: 15px;
+background: rgba(255,255,255,0.6);
+border-radius: 20px;
+backdrop-filter: blur(10px);
+box-shadow: 0 5px 25px rgba(255,77,109,0.3);
+color: #ff3d6e;
+animation: floatSide 4s ease-in-out infinite;
 }
+
+@keyframes floatSide {
+0%{transform:translateY(0);}
+50%{transform:translateY(-10px);}
+100%{transform:translateY(0);}
+}
+
+.left-box { left:10px; }
+.right-box { right:10px; }
 
 @media(max-width:768px){
 .gallery{grid-template-columns:repeat(2,1fr);}
+.side-box{display:none;}
 }
 @media(max-width:480px){
 .gallery{grid-template-columns:1fr;}
@@ -101,7 +123,6 @@ margin-top:15px;
 
 <body>
 
-<!-- 🎁 INTRO -->
 <div id="intro">
 <h2>Tap to open your birthday surprise 🎁</h2>
 <button id="openBtn">Open 💖</button>
@@ -111,7 +132,11 @@ margin-top:15px;
 <source src="song.mp3" type="audio/mp3">
 </audio>
 
+<div class="side-box left-box">You’re my favorite person 💗</div>
+<div class="side-box right-box">Forever yours 💖</div>
+
 <div class="container" id="mainContent">
+
 <h1>Happy Birthday Henna ❤️</h1>
 
 <div id="typing"></div>
@@ -123,15 +148,13 @@ margin-top:15px;
 </div>
 
 <button id="playBtn">Tap this 💌</button>
-
 <div id="secret">I love you more every day. — Ayan ❤️</div>
+
 </div>
 
 <script>
-
 window.onload = function() {
 
-/* 💌 MESSAGE */
 const message = `MY HZU,
 
 I cant imagine spending a single day without you, ik we have our ups and downs but ever since we've met i love life, everything about you feels so unreal that sometimes i question that even if ur real or not, your love makes me feel the emotions i never knew existed, ik we both are very short tempered have flaws but the way we always try n make it up n all is obv that we are meant to be together, I promise ill be the best bf now and will act just as how you like, will never give u a chance to complain and be bad at me bs daikho aap ab
@@ -143,58 +166,54 @@ Im sorry for hurting you whenever i did and i promise ill makeup for everything
 Forever yours,
 Ayandu ❤️`;
 
-/* ✨ TYPEWRITER */
+/* typewriter FIXED */
 function typeWriter() {
 let i = 0;
 let el = document.getElementById("typing");
-el.innerHTML = "";
+el.textContent = "";
 
 function step() {
 if (i < message.length) {
-el.innerHTML += message.charAt(i);
+el.textContent += message.charAt(i);
 i++;
-setTimeout(step, 18);
+setTimeout(step, 15);
 }
 }
 step();
 }
 
-/* 🎁 OPEN BUTTON */
+/* open */
 document.getElementById("openBtn").onclick = function() {
 document.getElementById("intro").style.display = "none";
 document.getElementById("mainContent").style.display = "block";
 
 let music = document.getElementById("bgmusic");
-music.volume = 0.5; /* 🔥 50% volume */
+music.volume = 0.2;
 music.play();
 
 typeWriter();
 };
 
-/* 💌 SECOND BUTTON */
+/* button */
 document.getElementById("playBtn").onclick = function() {
 document.getElementById("secret").style.display = "block";
 };
 
-/* 💖 FLOATING HEARTS */
+/* hearts */
 setInterval(()=>{
 let heart=document.createElement("div");
 heart.innerHTML="💖";
-
 heart.style.position="fixed";
 heart.style.left=Math.random()*100+"vw";
 heart.style.bottom="-20px";
 heart.style.fontSize=(Math.random()*20+15)+"px";
 heart.style.opacity=Math.random();
 heart.style.animation="floatUp 6s linear";
-
 document.body.appendChild(heart);
 setTimeout(()=>heart.remove(),6000);
-
 },400);
 
 };
-
 </script>
 
 </body>
