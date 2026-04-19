@@ -9,154 +9,139 @@ body{
 margin:0;
 font-family:'Segoe UI',sans-serif;
 background: linear-gradient(135deg,#ffdde1,#ee9ca7,#ffd1dc);
-overflow-x:hidden;
+overflow:hidden;
 cursor: url('cursor.cur') 16 16, auto;
-transition:0.4s;
+transition:0.5s;
+text-align:center;
+color:#333;
 }
 
-/* 🌙 dark mode */
-.dark{
-background: linear-gradient(135deg,#1e1e2f,#3a3a5a);
-color:white;
-}
-
-/* intro */
-#intro{
-position:fixed;
+/* screens */
+.screen{
+position:absolute;
 top:0;left:0;
-width:100%;height:100%;
+width:100%;
+height:100%;
 display:flex;
+flex-direction:column;
 justify-content:center;
 align-items:center;
-flex-direction:column;
-background: linear-gradient(135deg,#ffdde1,#ee9ca7);
-z-index:999;
+opacity:0;
+pointer-events:none;
+transition:0.6s;
 }
 
-/* main */
-.container{
-max-width:850px;
-margin:60px auto;
-padding:25px;
-text-align:center;
-background:rgba(255,255,255,0.3);
-border-radius:25px;
-backdrop-filter:blur(10px);
-display:none;
-overflow:visible;
+.active{
+opacity:1;
+pointer-events:auto;
 }
 
-/* ✨ glow (beat reactive) */
+/* glow */
 .glow{
 color:#ff3d6e;
 text-shadow:0 0 10px #ff4d6d;
-transition: text-shadow 0.1s linear;
+}
+
+/* button */
+button{
+padding:12px 25px;
+border:none;
+background:#ff4d6d;
+color:white;
+border-radius:25px;
+cursor:pointer;
+margin-top:15px;
 }
 
 /* typing */
 #typing{
+max-width:80%;
 line-height:1.8;
-word-break:break-word;
-white-space:normal;
 }
 
 /* polaroid */
 .gallery{
 display:flex;
 gap:15px;
-flex-wrap:wrap;
-justify-content:center;
-margin-top:20px;
 }
 .polaroid{
 background:white;
 padding:10px 10px 25px;
 border-radius:10px;
 box-shadow:0 10px 25px rgba(0,0,0,0.2);
-transform:rotate(-2deg);
 }
-.polaroid:nth-child(2){transform:rotate(2deg);}
-.polaroid:nth-child(3){transform:rotate(-1deg);}
-.polaroid img{
-width:150px;
-border-radius:5px;
-}
-
-/* buttons */
-button{
-margin-top:10px;
-padding:10px 20px;
-border:none;
-background:#ff4d6d;
-color:white;
-border-radius:25px;
-cursor:pointer;
-}
+.polaroid img{width:120px;}
 
 /* hearts */
 @keyframes floatUp{
 0%{transform:translateY(0);opacity:1;}
-100%{transform:translateY(-110vh);opacity:0;}
-}
-
-/* floating text */
-.float-text{
-position:fixed;
-color:#ff4d6d;
-font-size:14px;
-animation: floatUp 6s linear;
-pointer-events:none;
+100%{transform:translateY(-100vh);opacity:0;}
 }
 </style>
 </head>
 
 <body>
 
-<div id="intro">
-<h2>Tap to open your birthday surprise 🎁</h2>
-<button id="openBtn">Open 💖</button>
-</div>
-
 <audio id="bgmusic" loop>
 <source src="song.mp3" type="audio/mp3">
 </audio>
 
-<div class="container" id="mainContent">
+<!-- SCREEN 1 -->
+<div class="screen active" id="s1">
+<h2>Tap to open your birthday surprise 🎁</h2>
+<button onclick="next(1)">Open 💖</button>
+</div>
 
-<h1>Happy Birthday <span class="glow">Henna</span> ❤️</h1>
+<!-- SCREEN 2 -->
+<div class="screen" id="s2">
+<h1 class="glow">Happy Birthday Henna ❤️</h1>
+<button onclick="next(2)">Continue ➡️</button>
+</div>
 
-<button id="letterBtn">Read my letter 💌</button>
-<button id="musicBtn">Pause Music 🎵</button>
-<button id="modeBtn">🌙 Toggle Mode</button>
-
+<!-- SCREEN 3 -->
+<div class="screen" id="s3">
 <div id="typing"></div>
+<button onclick="next(3)">Next 💌</button>
+</div>
 
+<!-- SCREEN 4 -->
+<div class="screen" id="s4">
 <div class="gallery">
 <div class="polaroid"><img src="photo1.jpeg"></div>
 <div class="polaroid"><img src="photo2.jpeg"></div>
 <div class="polaroid"><img src="photo3.jpeg"></div>
 </div>
+<button onclick="next(4)">Final ❤️</button>
+</div>
 
-<button id="playBtn">Final Surprise 💖</button>
-<div id="secret" style="display:none;">I WILL ALWAYS BE URS ❤️</div>
-
+<!-- SCREEN 5 -->
+<div class="screen" id="s5">
+<h1 class="glow">I WILL ALWAYS BE URS ❤️</h1>
 </div>
 
 <script>
-window.onload=function(){
+const music = document.getElementById("bgmusic");
 
+/* story flow */
+function next(n){
+document.getElementById("s"+n).classList.remove("active");
+document.getElementById("s"+(n+1)).classList.add("active");
+
+/* start music + typing on first click */
+if(n===1){
+music.volume=0.2;
+music.play();
+typeWriter();
+}
+}
+
+/* typewriter */
 const message = `MY HZU,
 
-I cant imagine spending a single day without you, ik we have our ups and downs but ever since we've met i love life, everything about you feels so unreal that sometimes i question that even if ur real or not, your love makes me feel the emotions i never knew existed, ik we both are very short tempered have flaws but the way we always try n make it up n all is obv that we are meant to be together, I promise ill be the best bf now and will act just as how you like, will never give u a chance to complain and be bad at me bs daikho aap ab
+I cant imagine spending a single day without you... everything feels better with you.
 
-I Love you and always will in this life and others as well, if i could get chance to relive life i'd want you to be my gf in every. There is something about you that makes life livable, enjoyable, happy and most importantly makes life look different. I never knew someone could have this much impact on me but for 2 years we've met everything is just better man
+I Love you and always will ❤️`;
 
-Im sorry for hurting you whenever i did and i promise ill makeup for everything 
-
-Forever yours,
-Ayandu ❤️`;
-
-/* ✨ TYPEWRITER */
 function typeWriter(){
 let i=0;
 let el=document.getElementById("typing");
@@ -167,73 +152,25 @@ let char = message[i];
 if(char === "\n"){ el.innerHTML += "<br>"; }
 else{ el.innerHTML += char; }
 i++;
-setTimeout(step,15);
+setTimeout(step,20);
 }
 }
 step();
 }
 
-/* 🎁 OPEN */
-openBtn.onclick=function(){
-intro.style.display="none";
-mainContent.style.display="block";
-bgmusic.volume=0.2;
-bgmusic.play();
-
-/* start audio context */
-audioCtx.resume();
-};
-
-/* 💌 LETTER */
-letterBtn.onclick=typeWriter;
-
-/* ❤️ FINAL */
-playBtn.onclick=function(){
-secret.style.display="block";
-};
-
-/* 🎵 MUSIC */
-musicBtn.onclick=function(){
-if(bgmusic.paused){
-bgmusic.play();
-musicBtn.innerText="Pause Music 🎵";
-}else{
-bgmusic.pause();
-musicBtn.innerText="Play Music 🎵";
-}
-};
-
-/* 🌙 MODE */
-modeBtn.onclick=function(){
-document.body.classList.toggle("dark");
-};
-
-/* 💖 FLOAT HEARTS */
+/* hearts */
 setInterval(()=>{
 let h=document.createElement("div");
 h.innerHTML="💖";
 h.style.position="fixed";
 h.style.left=Math.random()*100+"vw";
-h.style.bottom="-20px";
-h.style.fontSize="20px";
+h.style.bottom="0";
 h.style.animation="floatUp 6s linear";
 document.body.appendChild(h);
 setTimeout(()=>h.remove(),6000);
-},400);
+},500);
 
-/* 💬 FLOAT TEXT */
-const texts=["I love you 💖","My girl 💕","Forever us 💞","Henna ❤️"];
-setInterval(()=>{
-let t=document.createElement("div");
-t.className="float-text";
-t.innerText=texts[Math.floor(Math.random()*texts.length)];
-t.style.left=Math.random()*100+"vw";
-t.style.bottom="-20px";
-document.body.appendChild(t);
-setTimeout(()=>t.remove(),6000);
-},1500);
-
-/* 💗 CURSOR HEART TRAIL */
+/* cursor trail */
 document.addEventListener("mousemove",function(e){
 let heart=document.createElement("div");
 heart.innerHTML="💖";
@@ -249,38 +186,6 @@ heart.style.opacity="0";
 },10);
 setTimeout(()=>heart.remove(),600);
 });
-
-/* 🎶 BEAT REACTIVE GLOW */
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-const source = audioCtx.createMediaElementSource(bgmusic);
-const analyser = audioCtx.createAnalyser();
-
-source.connect(analyser);
-analyser.connect(audioCtx.destination);
-
-analyser.fftSize = 64;
-const dataArray = new Uint8Array(analyser.frequencyBinCount);
-
-function animateGlow(){
-requestAnimationFrame(animateGlow);
-analyser.getByteFrequencyData(dataArray);
-
-let sum=0;
-for(let i=0;i<dataArray.length;i++){ sum+=dataArray[i]; }
-let avg=sum/dataArray.length;
-
-let glow = avg/2;
-
-document.querySelector(".glow").style.textShadow = `
-0 0 ${glow}px #ff4d6d,
-0 0 ${glow*2}px #ff4d6d,
-0 0 ${glow*3}px #ff4d6d
-`;
-}
-
-animateGlow();
-
-};
 </script>
 
 </body>
