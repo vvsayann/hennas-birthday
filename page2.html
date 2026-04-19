@@ -13,7 +13,7 @@ display:flex;
 justify-content:center;
 align-items:center;
 flex-direction:column;
-height:100vh;
+min-height:100vh;
 text-align:center;
 cursor: url('cursor.cur') 16 16, auto;
 transition:0.4s;
@@ -29,49 +29,194 @@ box-shadow:0 10px 40px rgba(0,0,0,0.2);
 max-width:400px;
 }
 
-/* glow text */
+/* glow */
 .glow{
 color:#ff3d6e;
-text-shadow:
-0 0 10px #ff4d6d,
-0 0 20px #ff4d6d;
+text-shadow:0 0 10px #ff4d6d, 0 0 20px #ff4d6d;
 }
 
-/* button */
+/* buttons */
 button{
-margin-top:20px;
-padding:12px 25px;
+margin-top:15px;
+padding:10px 20px;
 border:none;
 background:#ff4d6d;
 color:white;
 border-radius:25px;
 cursor:pointer;
-font-size:16px;
+font-size:15px;
 }
+
+/* quiz */
+#quiz{ display:none; }
+#answers button{
+display:block;
+width:100%;
+margin-top:10px;
+}
+
+#result{
+margin-top:15px;
+font-weight:bold;
+color:#ff3d6e;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="box">
+<div class="box" id="startBox">
 <h1 class="glow">Hey Henna ❤️</h1>
-
 <p>There’s something special waiting for you… 💌</p>
+<button onclick="startQuiz()">Start 💖</button>
+</div>
 
-<button onclick="nextPage()">Continue ➡️</button>
+<div class="box" id="quiz">
+<h2 id="question"></h2>
+
+<div id="answers">
+<button onclick="checkAnswer(0)"></button>
+<button onclick="checkAnswer(1)"></button>
+<button onclick="checkAnswer(2)"></button>
+<button onclick="checkAnswer(3)"></button>
+</div>
+
+<div id="result"></div>
 </div>
 
 <script>
 
-/* 💫 PAGE TRANSITION */
-function nextPage(){
-document.body.style.opacity = "0";
-setTimeout(()=>{
-window.location.href = "page3.html";
-},400);
+/* START QUIZ */
+function startQuiz(){
+startBox.style.display="none";
+quiz.style.display="block";
+loadQ();
 }
 
-/* 💖 CURSOR HEART TRAIL (SAME AS MAIN) */
+/* QUESTIONS */
+const questions = [
+{
+q: "How much do I love you?",
+a: [
+"A MILLION INFINITY",
+"A MILLION QUINTILLION INFINITY",
+"A MILLION INFINITY",
+"MORE THAN THE AMOUNT OF NUMBERS THERE R"
+],
+correct: 3
+},
+{
+q: "What is my fav moment with you when we met?",
+a: ["Hugging you","Kissing you","Cuddling you","Showering with you"],
+correct: 2
+},
+{
+q: "What is my fav part about you?",
+a: ["Your eyes","Your hair","Your body","Your humour & music taste"],
+correct: 0
+},
+{
+q: "What color shirt was I wearing when I came to visit you in Lahore?",
+a: ["white","grey","black","red"],
+correct: 1
+},
+{
+q: "Who’s the better clove player?",
+a: ["henna","ayandu"],
+correct: 0
+},
+{
+q: "Who loves Henna the most?",
+a: ["ayan","ayan","ayan","ayan"],
+correct: "all"
+}
+];
+
+let current = 0;
+
+/* LOAD QUESTION */
+function loadQ(){
+question.innerText = questions[current].q;
+
+let btns = document.querySelectorAll("#answers button");
+btns.forEach((b,i)=>{
+b.innerText = questions[current].a[i] || "";
+});
+
+result.innerText="";
+}
+
+/* CHECK */
+function checkAnswer(i){
+
+if(questions[current].correct === "all" || i === questions[current].correct){
+
+result.innerText="Correct 💖";
+
+/* mini explosion */
+for(let j=0;j<15;j++){
+let h=document.createElement("div");
+h.innerHTML="💖";
+h.style.position="fixed";
+h.style.left=Math.random()*100+"vw";
+h.style.top=Math.random()*100+"vh";
+h.style.transition="1s";
+document.body.appendChild(h);
+
+setTimeout(()=>{
+h.style.transform="translateY(-40px)";
+h.style.opacity="0";
+},10);
+
+setTimeout(()=>h.remove(),1000);
+}
+
+}else{
+result.innerText="Wrong answer, u getting spankies now 😭";
+return;
+}
+
+current++;
+
+if(current < questions.length){
+setTimeout(loadQ,700);
+}else{
+
+/* FINAL */
+result.innerText="YAYYY U GOT IT! I LOVE YOU SHONAAA 💖";
+
+/* big explosion */
+for(let j=0;j<40;j++){
+let h=document.createElement("div");
+h.innerHTML="💖";
+h.style.position="fixed";
+h.style.left=Math.random()*100+"vw";
+h.style.top=Math.random()*100+"vh";
+h.style.transition="1.5s";
+document.body.appendChild(h);
+
+setTimeout(()=>{
+h.style.transform="translateY(-80px)";
+h.style.opacity="0";
+},10);
+
+setTimeout(()=>h.remove(),1500);
+}
+
+/* go next page */
+setTimeout(()=>{
+document.body.style.opacity="0";
+setTimeout(()=>{
+window.location.href="page3.html";
+},400);
+},2000);
+
+}
+
+}
+
+/* 💖 CURSOR TRAIL */
 document.addEventListener("mousemove",function(e){
 let heart=document.createElement("div");
 heart.innerHTML="💖";
@@ -89,6 +234,7 @@ heart.style.opacity="0";
 
 setTimeout(()=>heart.remove(),600);
 });
+
 </script>
 
 </body>
