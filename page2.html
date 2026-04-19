@@ -3,7 +3,12 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For You ❤️</title>
+
 <style>
+*{
+-webkit-tap-highlight-color: transparent;
+}
+
 body{
 margin:0;
 font-family:'Segoe UI',sans-serif;
@@ -15,31 +20,44 @@ flex-direction:column;
 height:100vh;
 text-align:center;
 cursor: url('cursor.cur') 16 16, auto;
+padding:15px;
 }
+
 .box{
 background:rgba(255,255,255,0.3);
-padding:30px;
+padding:25px;
 border-radius:25px;
 backdrop-filter:blur(10px);
 box-shadow:0 10px 40px rgba(0,0,0,0.2);
+width:90%;
 max-width:400px;
 }
+
 .glow{
 color:#ff3d6e;
 text-shadow:0 0 10px #ff4d6d,0 0 20px #ff4d6d;
 }
+
 button{
 margin-top:10px;
-padding:10px 20px;
+padding:12px;
 border:none;
 background:#ff4d6d;
 color:white;
 border-radius:25px;
 cursor:pointer;
+width:100%;
+font-size:15px;
 }
+
+h1{font-size:22px;}
+h2{font-size:18px;}
+p{font-size:14px;}
+
 #quiz,#final{display:none;}
 </style>
 </head>
+
 <body>
 
 <audio id="bgmusic" loop>
