@@ -3,7 +3,6 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For You my lil mango juice ❤️</title>
-
 <style>
 body{
 margin:0;
@@ -18,8 +17,6 @@ text-align:center;
 cursor: url('cursor.cur') 16 16, auto;
 transition:0.4s;
 }
-
-
 .box{
 background:rgba(255,255,255,0.3);
 padding:30px;
@@ -28,16 +25,12 @@ backdrop-filter:blur(10px);
 box-shadow:0 10px 40px rgba(0,0,0,0.2);
 max-width:400px;
 }
-
-
 .glow{
 color:#ff3d6e;
 text-shadow:
 0 0 10px #ff4d6d,
 0 0 20px #ff4d6d;
 }
-
-
 button{
 margin-top:15px;
 padding:12px 25px;
@@ -48,28 +41,31 @@ border-radius:25px;
 cursor:pointer;
 font-size:16px;
 }
+#nextSection{
+display:none;
+}
 </style>
 </head>
-
 <body>
-
-
 <audio id="bgmusic" loop>
 <source src="song.mp3" type="audio/mp3">
 </audio>
 
-<div class="box">
+<div class="box" id="mainBox">
 <h1 class="glow">Hey Henna ❤️</h1>
 <p>There’s something special waiting for you… 💌</p>
-
 <button onclick="toggleMusic()" id="musicBtn">Play Music 🎵</button>
 <button onclick="nextPage()">Continue ➡️</button>
 </div>
 
+<div class="box" id="nextSection">
+<h2 class="glow">Ready for the next surprise? 💖</h2>
+<button onclick="goToQuiz()">Go 💌</button>
+</div>
+
 <script>
-
-
 const music = document.getElementById("bgmusic");
+const musicBtn = document.getElementById("musicBtn");
 
 function toggleMusic(){
 if(music.paused){
@@ -82,12 +78,13 @@ musicBtn.innerText = "Play Music 🎵";
 }
 }
 
-
 function nextPage(){
-document.body.style.opacity = "0";
-setTimeout(()=>{
+document.getElementById("mainBox").style.display = "none";
+document.getElementById("nextSection").style.display = "block";
+}
+
+function goToQuiz(){
 window.location.href = "page3.html";
-},400);
 }
 
 document.addEventListener("mousemove",function(e){
@@ -99,16 +96,12 @@ heart.style.top=e.clientY+"px";
 heart.style.pointerEvents="none";
 heart.style.transition="0.6s";
 document.body.appendChild(heart);
-
 setTimeout(()=>{
 heart.style.transform="translateY(-20px)";
 heart.style.opacity="0";
 },10);
-
 setTimeout(()=>heart.remove(),600);
 });
-
 </script>
-
 </body>
 </html>
