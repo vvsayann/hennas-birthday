@@ -1,1 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You my lil mango juice ❤️</title>
 
+<style>
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background: linear-gradient(135deg,#ffdde1,#ee9ca7,#ffd1dc);
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+height:100vh;
+text-align:center;
+cursor: url('cursor.cur') 16 16, auto;
+transition:0.4s;
+}
+
+/* container */
+.box{
+background:rgba(255,255,255,0.3);
+padding:30px;
+border-radius:25px;
+backdrop-filter:blur(10px);
+box-shadow:0 10px 40px rgba(0,0,0,0.2);
+max-width:400px;
+}
+
+/* glow text */
+.glow{
+color:#ff3d6e;
+text-shadow:
+0 0 10px #ff4d6d,
+0 0 20px #ff4d6d;
+}
+
+/* button */
+button{
+margin-top:20px;
+padding:12px 25px;
+border:none;
+background:#ff4d6d;
+color:white;
+border-radius:25px;
+cursor:pointer;
+font-size:16px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+<h1 class="glow">Hey Henna ❤️</h1>
+
+<p>There’s something special waiting for you… 💌</p>
+
+<button onclick="nextPage()">Continue ➡️</button>
+</div>
+
+<script>
+
+/* 💫 PAGE TRANSITION */
+function nextPage(){
+document.body.style.opacity = "0";
+setTimeout(()=>{
+window.location.href = "page3.html";
+},400);
+}
+
+/* 💖 CURSOR HEART TRAIL (SAME AS MAIN) */
+document.addEventListener("mousemove",function(e){
+let heart=document.createElement("div");
+heart.innerHTML="💖";
+heart.style.position="fixed";
+heart.style.left=e.clientX+"px";
+heart.style.top=e.clientY+"px";
+heart.style.pointerEvents="none";
+heart.style.transition="0.6s";
+document.body.appendChild(heart);
+
+setTimeout(()=>{
+heart.style.transform="translateY(-20px)";
+heart.style.opacity="0";
+},10);
+
+setTimeout(()=>heart.remove(),600);
+});
+</script>
+
+</body>
+</html>
