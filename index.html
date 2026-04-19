@@ -37,16 +37,13 @@ cursor:pointer;
 margin-top:15px;
 }
 
-/* 💖 hearts */
+/* 💖 hearts animation */
 @keyframes floatUp {
-0% {transform:translateY(0) scale(1); opacity:1;}
-100% {transform:translateY(-110vh) scale(1.4); opacity:0;}
+0% {transform:translateY(0); opacity:1;}
+100% {transform:translateY(-110vh); opacity:0;}
 }
 
-/* fade */
-.hidden {display:none;}
-.show {display:block;}
-
+/* MAIN CONTENT */
 .container {
 max-width:850px;
 margin:60px auto;
@@ -55,6 +52,7 @@ text-align:center;
 background:rgba(255,255,255,0.3);
 border-radius:25px;
 backdrop-filter: blur(10px);
+display:none; /* hidden initially */
 }
 
 h1 { color:#ff3d6e; }
@@ -65,7 +63,6 @@ line-height:1.8;
 white-space:pre-line;
 }
 
-/* gallery */
 .gallery {
 display:grid;
 grid-template-columns:repeat(3,1fr);
@@ -88,7 +85,10 @@ border-radius:25px;
 cursor:pointer;
 }
 
-#secret { display:none; margin-top:15px; }
+#secret {
+display:none;
+margin-top:15px;
+}
 
 @media(max-width:768px){
 .gallery{grid-template-columns:repeat(2,1fr);}
@@ -111,7 +111,7 @@ cursor:pointer;
 <source src="song.mp3" type="audio/mp3">
 </audio>
 
-<div class="container hidden" id="mainContent">
+<div class="container" id="mainContent">
 <h1>Happy Birthday Henna ❤️</h1>
 
 <div id="typing"></div>
@@ -129,7 +129,9 @@ cursor:pointer;
 
 <script>
 
-/* 💌 MESSAGE */
+window.onload = function() {
+
+/* 💌 FULL MESSAGE */
 const message = `MY HZU,
 
 I cant imagine spending a single day without you, ik we have our ups and downs but ever since we've met i love life, everything about you feels so unreal that sometimes i question that even if ur real or not, your love makes me feel the emotions i never knew existed, ik we both are very short tempered have flaws but the way we always try n make it up n all is obv that we are meant to be together, I promise ill be the best bf now and will act just as how you like, will never give u a chance to complain and be bad at me bs daikho aap ab
@@ -157,51 +159,41 @@ setTimeout(step, 18);
 step();
 }
 
-/* 🎁 START BUTTON FIX */
-document.getElementById("openBtn").addEventListener("click", function(){
-
+/* 🎁 OPEN BUTTON */
+document.getElementById("openBtn").onclick = function() {
 document.getElementById("intro").style.display = "none";
-document.getElementById("mainContent").classList.remove("hidden");
+document.getElementById("mainContent").style.display = "block";
 
 /* play music */
 document.getElementById("bgmusic").play();
 
 /* start typing */
 typeWriter();
+};
 
-});
-
-/* 💌 second button */
-document.getElementById("playBtn").addEventListener("click", function(){
+/* 💌 SECOND BUTTON */
+document.getElementById("playBtn").onclick = function() {
 document.getElementById("secret").style.display = "block";
-});
+};
 
-/* 💖 hearts */
+/* 💖 FLOATING HEARTS */
 setInterval(()=>{
 let heart=document.createElement("div");
-let shapes=["💖","💗","💘"];
+heart.innerHTML="💖";
 
-heart.innerHTML=shapes[Math.floor(Math.random()*shapes.length)];
 heart.style.position="fixed";
 heart.style.left=Math.random()*100+"vw";
 heart.style.bottom="-20px";
-
-let size=Math.random()*20+15;
-heart.style.fontSize=size+"px";
-
-heart.style.textShadow=`
-0 0 10px rgba(255,77,109,0.8),
-0 0 20px rgba(255,77,109,0.6),
-0 0 30px rgba(255,77,109,0.4)
-`;
-
-heart.style.filter="blur("+Math.random()*1.5+"px)";
-heart.style.animation="floatUp "+(Math.random()*3+5)+"s linear forwards";
+heart.style.fontSize=(Math.random()*20+15)+"px";
+heart.style.opacity=Math.random();
+heart.style.animation="floatUp 6s linear";
 
 document.body.appendChild(heart);
-setTimeout(()=>heart.remove(),8000);
+setTimeout(()=>heart.remove(),6000);
 
 },400);
+
+};
 
 </script>
 
