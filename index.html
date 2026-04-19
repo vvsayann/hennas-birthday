@@ -14,7 +14,6 @@ overflow-x: hidden;
 color: #333;
 }
 
-/* floating hearts */
 .heart {
 position: fixed;
 color: #ff4d6d;
@@ -27,7 +26,6 @@ z-index: 0;
 100% {transform: translateY(-10vh); opacity: 0;}
 }
 
-/* main card */
 .container {
 position: relative;
 z-index: 1;
@@ -52,7 +50,6 @@ line-height: 1.8;
 white-space: pre-line;
 }
 
-/* gallery */
 .gallery {
 display: grid;
 grid-template-columns: repeat(3, 1fr);
@@ -66,7 +63,6 @@ border-radius: 18px;
 box-shadow: 0 6px 20px rgba(0,0,0,0.2);
 }
 
-/* button */
 button {
 margin-top: 20px;
 padding: 12px 25px;
@@ -85,7 +81,6 @@ margin-top: 15px;
 color: #ff2e63;
 }
 
-/* mobile */
 @media (max-width: 768px) {
 .gallery {
 grid-template-columns: repeat(2, 1fr);
@@ -102,7 +97,7 @@ grid-template-columns: 1fr;
 
 <body>
 
-<audio autoplay loop>
+<audio id="bgmusic" loop>
 <source src="song.mp3" type="audio/mp3">
 </audio>
 
@@ -118,7 +113,8 @@ grid-template-columns: 1fr;
 <img src="photo3.jpeg">
 </div>
 
-<button onclick="showMessage()">Tap this 💌</button>
+<!-- ✅ UPDATED BUTTON -->
+<button onclick="playMusic(); showMessage()">Tap this 💌</button>
 
 <div id="secret">I love you more every day. — Ayan ❤️</div>
 
@@ -151,8 +147,13 @@ setTimeout(typeWriter, 35);
 
 typeWriter();
 
+/* ✅ FIXED FUNCTIONS */
 window.showMessage = function() {
 document.getElementById("secret").style.display = "block";
+};
+
+window.playMusic = function() {
+document.getElementById("bgmusic").play();
 };
 
 function createHeart() {
