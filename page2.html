@@ -84,7 +84,10 @@ document.getElementById("nextSection").style.display = "block";
 }
 
 function goToQuiz(){
-window.location.href = "page3.html";
+document.getElementById("nextSection").innerHTML = `
+<h2 class="glow">Quiz coming next 👀</h2>
+<p>Get ready... 💖</p>
+`;
 }
 
 document.addEventListener("mousemove",function(e){
