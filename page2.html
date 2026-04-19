@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For You my lil mango juice ❤️</title>
+<title>For You ❤️</title>
 <style>
 body{
 margin:0;
@@ -15,7 +15,6 @@ flex-direction:column;
 height:100vh;
 text-align:center;
 cursor: url('cursor.cur') 16 16, auto;
-transition:0.4s;
 }
 .box{
 background:rgba(255,255,255,0.3);
@@ -27,21 +26,18 @@ max-width:400px;
 }
 .glow{
 color:#ff3d6e;
-text-shadow:0 0 10px #ff4d6d, 0 0 20px #ff4d6d;
+text-shadow:0 0 10px #ff4d6d,0 0 20px #ff4d6d;
 }
 button{
-margin-top:15px;
-padding:12px 25px;
+margin-top:10px;
+padding:10px 20px;
 border:none;
 background:#ff4d6d;
 color:white;
 border-radius:25px;
 cursor:pointer;
-font-size:16px;
 }
-#nextSection{
-display:none;
-}
+#quiz,#final{display:none;}
 </style>
 </head>
 <body>
@@ -50,72 +46,104 @@ display:none;
 <source src="song.mp3" type="audio/mp3">
 </audio>
 
-<div class="box" id="mainBox">
+<div class="box" id="start">
 <h1 class="glow">Hey Henna ❤️</h1>
 <p>There’s something special waiting for you… 💌</p>
 <button onclick="toggleMusic()" id="musicBtn">Play Music 🎵</button>
-<button onclick="nextPage()">Continue ➡️</button>
+<button onclick="startQuiz()">Continue ➡️</button>
 </div>
 
-<div class="box" id="nextSection">
-<h2 class="glow">Something special for you 💖</h2>
-<p>I WILL ALWAYS BE URS ❤️</p>
+<div class="box" id="quiz">
+<h2 id="q"></h2>
+<div id="answers"></div>
+<p id="res"></p>
+</div>
+
+<div class="box" id="final">
+<h2 class="glow">YAYYY U GOT IT! ❤️</h2>
+<p>I WILL ALWAYS BE URS 💖</p>
 </div>
 
 <script>
-const music = document.getElementById("bgmusic");
-const musicBtn = document.getElementById("musicBtn");
+const music=document.getElementById("bgmusic");
+const musicBtn=document.getElementById("musicBtn");
 
 function toggleMusic(){
 if(music.paused){
-music.volume = 0.2;
+music.volume=0.2;
 music.play();
-musicBtn.innerText = "Pause Music 🎵";
+musicBtn.innerText="Pause Music 🎵";
 }else{
 music.pause();
-musicBtn.innerText = "Play Music 🎵";
+musicBtn.innerText="Play Music 🎵";
 }
 }
 
-function nextPage(){
-mainBox.style.display="none";
-nextSection.style.display="block";
+const data=[
+{q:"How much do I love you?",a:["A MILLION INFINITY","A MILLION QUINTILLION INFINITY","A MILLION INFINITY","MORE THAN THE AMOUNT OF NUMBERS THERE R"],c:3},
+{q:"Fav moment?",a:["Hugging you","Kissing you","Cuddling you","Showering"],c:2},
+{q:"Fav part?",a:["Your eyes","Your hair","Your body","Your humour"],c:0},
+{q:"Shirt color?",a:["white","grey","black","red"],c:1},
+{q:"Better clove player?",a:["henna","ayandu"],c:0},
+{q:"Who loves Henna most?",a:["ayan","ayan","ayan","ayan"],c:"all"}
+];
 
-/* final heart explosion */
-for(let i=0;i<40;i++){
+let i=0;
+
+function startQuiz(){
+start.style.display="none";
+quiz.style.display="block";
+load();
+}
+
+function load(){
+q.innerText=data[i].q;
+answers.innerHTML="";
+data[i].a.forEach((opt,idx)=>{
+let b=document.createElement("button");
+b.innerText=opt;
+b.onclick=()=>check(idx);
+answers.appendChild(b);
+});
+res.innerText="";
+}
+
+function check(x){
+if(data[i].c==="all"||x===data[i].c){
+res.innerText="Correct 💖";
+i++;
+if(i<data.length){
+setTimeout(load,500);
+}else{
+quiz.style.display="none";
+final.style.display="block";
+for(let j=0;j<40;j++){
 let h=document.createElement("div");
 h.innerHTML="💖";
 h.style.position="fixed";
 h.style.left=Math.random()*100+"vw";
 h.style.top=Math.random()*100+"vh";
-h.style.transition="1.5s";
+h.style.transition="1s";
 document.body.appendChild(h);
-
-setTimeout(()=>{
-h.style.transform="translateY(-80px)";
-h.style.opacity="0";
-},10);
-
-setTimeout(()=>h.remove(),1500);
+setTimeout(()=>{h.style.opacity="0";h.style.transform="translateY(-50px)";},10);
+setTimeout(()=>h.remove(),1000);
+}
+}
+}else{
+res.innerText="wrong answer, u getting spankies now 😭";
 }
 }
 
-document.addEventListener("mousemove",function(e){
-let heart=document.createElement("div");
-heart.innerHTML="💖";
-heart.style.position="fixed";
-heart.style.left=e.clientX+"px";
-heart.style.top=e.clientY+"px";
-heart.style.pointerEvents="none";
-heart.style.transition="0.6s";
-document.body.appendChild(heart);
-
-setTimeout(()=>{
-heart.style.transform="translateY(-20px)";
-heart.style.opacity="0";
-},10);
-
-setTimeout(()=>heart.remove(),600);
+document.addEventListener("mousemove",e=>{
+let h=document.createElement("div");
+h.innerHTML="💖";
+h.style.position="fixed";
+h.style.left=e.clientX+"px";
+h.style.top=e.clientY+"px";
+h.style.pointerEvents="none";
+document.body.appendChild(h);
+setTimeout(()=>{h.style.opacity="0";h.style.transform="translateY(-20px)";},10);
+setTimeout(()=>h.remove(),500);
 });
 </script>
 
