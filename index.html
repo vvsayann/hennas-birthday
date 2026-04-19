@@ -12,16 +12,10 @@ background: linear-gradient(135deg, #ffdde1, #ee9ca7, #ffd1dc);
 overflow-x: hidden;
 }
 
-/* 💖 smooth floating */
+/* 💖 floating animation */
 @keyframes floatUp {
-0% {
-transform: translateY(0) scale(1);
-opacity: 0.9;
-}
-100% {
-transform: translateY(-110vh) scale(1.4);
-opacity: 0;
-}
+0% { transform: translateY(0) scale(1); opacity: 0.9; }
+100% { transform: translateY(-110vh) scale(1.4); opacity: 0; }
 }
 
 .container {
@@ -36,6 +30,12 @@ backdrop-filter: blur(10px);
 
 h1 { color:#ff3d6e; }
 
+#typing {
+font-size: 18px;
+line-height: 1.8;
+white-space: pre-line;
+}
+
 .gallery {
 display:grid;
 grid-template-columns:repeat(3,1fr);
@@ -48,7 +48,6 @@ width:100%;
 border-radius:15px;
 }
 
-/* 💌 button */
 button {
 margin-top:20px;
 padding:12px 25px;
@@ -61,7 +60,6 @@ cursor:pointer;
 
 #secret { display:none; margin-top:15px; }
 
-/* mobile */
 @media(max-width:768px){
 .gallery{grid-template-columns:repeat(2,1fr);}
 }
@@ -90,15 +88,18 @@ cursor:pointer;
 
 <button id="playBtn">Tap this 💌</button>
 
-<div id="secret">I love you more every day. — Ayandu ❤️</div>
+<div id="secret">I love you more every day. — Ayan ❤️</div>
 </div>
 
 <script>
 
+/* 💌 FULL MESSAGE */
 const message = `MY HZU,
 
 I cant imagine spending a single day without you, ik we have our ups and downs but ever since we've met i love life, everything about you feels so unreal that sometimes i question that even if ur real or not, your love makes me feel the emotions i never knew existed, ik we both are very short tempered have flaws but the way we always try n make it up n all is obv that we are meant to be together, I promise ill be the best bf now and will act just as how you like, will never give u a chance to complain and be bad at me bs daikho aap ab
+
 I Love you and always will in this life and others as well, if i could get chance to relive life i'd want you to be my gf in every. There is something about you that makes life livable, enjoyable, happy and most importantly makes life look different. I never knew someone could have this much impact on me but for 2 years we've met everything is just better man
+
 Im sorry for hurting you whenever i did and i promise ill makeup for everything 
 
 Forever yours,
@@ -110,7 +111,7 @@ function typeWriter(){
 if(i < message.length){
 document.getElementById("typing").innerHTML += message.charAt(i);
 i++;
-setTimeout(typeWriter,35);
+setTimeout(typeWriter, 25);
 }
 }
 
@@ -122,38 +123,32 @@ document.getElementById("bgmusic").play();
 document.getElementById("secret").style.display = "block";
 });
 
-/* 💖✨ GLOWING HEARTS SYSTEM */
+/* 💖✨ glowing hearts */
 setInterval(()=>{
 
 let heart = document.createElement("div");
-
 let shapes = ["💖","💗","💘"];
+
 heart.innerHTML = shapes[Math.floor(Math.random()*shapes.length)];
 
 heart.style.position = "fixed";
 heart.style.left = Math.random()*100 + "vw";
 heart.style.bottom = "-20px";
 
-/* size */
 let size = Math.random()*20 + 15;
 heart.style.fontSize = size + "px";
 
-/* glow effect */
 heart.style.textShadow = `
 0 0 10px rgba(255,77,109,0.8),
 0 0 20px rgba(255,77,109,0.6),
 0 0 30px rgba(255,77,109,0.4)
 `;
 
-/* blur trail illusion */
 heart.style.filter = "blur(" + (Math.random()*1.5) + "px)";
-
-/* animation speed */
 heart.style.animation = "floatUp " + (Math.random()*3 + 5) + "s linear forwards";
 
 document.body.appendChild(heart);
 
-/* remove */
 setTimeout(()=>heart.remove(),8000);
 
 },400);
