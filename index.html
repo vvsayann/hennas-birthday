@@ -11,11 +11,11 @@ font-family: 'Segoe UI', sans-serif;
 background: linear-gradient(135deg, #ffdde1, #ee9ca7, #ffd1dc);
 overflow-x: hidden;
 
-/* 🖱️ CUSTOM CURSOR */
-cursor: url('heart.png'), auto;
+/* 🖱️ cursor */
+cursor: url('cursor.cur'), url('heart.png'), auto;
 }
 
-/* 🎁 INTRO */
+/* 🎁 intro */
 #intro {
 position: fixed;
 top:0; left:0;
@@ -26,7 +26,6 @@ align-items:center;
 flex-direction:column;
 background: linear-gradient(135deg, #ffdde1, #ee9ca7);
 z-index:999;
-text-align:center;
 }
 
 #intro button {
@@ -37,23 +36,26 @@ background:#ff4d6d;
 color:white;
 font-size:18px;
 cursor:pointer;
-margin-top:15px;
 }
 
-/* 💖 HEART FLOAT */
+/* 💖 hearts */
 @keyframes floatUp {
 0% {transform:translateY(0); opacity:1;}
 100% {transform:translateY(-110vh); opacity:0;}
 }
 
-/* ✨ SIDE BOX FLOAT */
-@keyframes sideFloat {
-0% {transform: translateY(0);}
-50% {transform: translateY(-10px);}
-100% {transform: translateY(0);}
+/* ✨ glow title */
+h1 {
+color:#ff3d6e;
+animation: glow 2s ease-in-out infinite alternate;
 }
 
-/* 💗 MAIN */
+@keyframes glow {
+from { text-shadow: 0 0 5px #ff4d6d; }
+to { text-shadow: 0 0 20px #ff4d6d, 0 0 30px #ff99aa; }
+}
+
+/* main */
 .container {
 max-width:850px;
 margin:60px auto;
@@ -65,25 +67,17 @@ backdrop-filter: blur(10px);
 display:none;
 }
 
-h1 { color:#ff3d6e; }
-
 #typing {
 font-size:18px;
 line-height:1.8;
 white-space:pre-line;
 }
 
-/* gallery */
-.gallery {
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px;
-margin-top:20px;
-}
-
+/* slideshow */
 .gallery img {
 width:100%;
 border-radius:15px;
+transition: opacity 1s ease;
 }
 
 /* buttons */
@@ -97,51 +91,42 @@ border-radius:25px;
 cursor:pointer;
 }
 
-#secret {
-display:none;
-margin-top:15px;
+#secret {display:none;}
+
+/* 💗 side boxes */
+@keyframes floatBox {
+0%{transform:translateY(0);}
+50%{transform:translateY(-10px);}
+100%{transform:translateY(0);}
 }
 
-/* 💗 SIDE BOXES */
 .side-box {
-position: fixed;
-top: 30%;
-width: 170px;
-padding: 15px;
-background: rgba(255,255,255,0.6);
-border-radius: 20px;
-backdrop-filter: blur(10px);
-box-shadow: 0 5px 25px rgba(255,77,109,0.3);
-font-size: 14px;
-color: #ff3d6e;
-z-index: 2;
-
-/* animation */
-animation: sideFloat 4s ease-in-out infinite;
+position:fixed;
+top:30%;
+width:160px;
+padding:15px;
+background:rgba(255,255,255,0.6);
+border-radius:20px;
+backdrop-filter:blur(10px);
+color:#ff3d6e;
+animation: floatBox 4s infinite;
 }
 
-/* glow */
 .side-box:hover {
-box-shadow: 0 0 25px rgba(255,77,109,0.8);
+box-shadow:0 0 25px rgba(255,77,109,0.8);
 }
 
-.left-box { left: 10px; }
-.right-box { right: 10px; }
+.left-box{left:10px;}
+.right-box{right:10px;}
 
-/* mobile */
 @media(max-width:768px){
-.gallery{grid-template-columns:repeat(2,1fr);}
 .side-box{display:none;}
-}
-@media(max-width:480px){
-.gallery{grid-template-columns:1fr;}
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🎁 INTRO -->
 <div id="intro">
 <h2>Tap to open your birthday surprise 🎁</h2>
 <button id="openBtn">Open 💖</button>
@@ -151,91 +136,100 @@ box-shadow: 0 0 25px rgba(255,77,109,0.8);
 <source src="song.mp3" type="audio/mp3">
 </audio>
 
-<!-- 💗 SIDE TEXT -->
-<div class="side-box left-box">
-You’re my favorite person ever 💗
-</div>
-
-<div class="side-box right-box">
-Forever yours, always 💖
-</div>
+<div class="side-box left-box">my girl 💗</div>
+<div class="side-box right-box">forever us 💖</div>
 
 <div class="container" id="mainContent">
+
 <h1>Happy Birthday Henna ❤️</h1>
 
 <div id="typing"></div>
 
 <div class="gallery">
-<img src="photo1.jpeg">
-<img src="photo2.jpeg">
-<img src="photo3.jpeg">
+<img id="slide" src="photo1.jpeg">
 </div>
 
 <button id="playBtn">Tap this 💌</button>
 
-<div id="secret">I love you more every day. — Ayan ❤️</div>
+<div id="secret">You mean everything to me ❤️</div>
+
 </div>
 
 <script>
-window.onload = function() {
+window.onload = function(){
 
 const message = `MY HZU,
 
-I cant imagine spending a single day without you, ik we have our ups and downs but ever since we've met i love life, everything about you feels so unreal that sometimes i question that even if ur real or not, your love makes me feel the emotions i never knew existed, ik we both are very short tempered have flaws but the way we always try n make it up n all is obv that we are meant to be together, I promise ill be the best bf now and will act just as how you like, will never give u a chance to complain and be bad at me bs daikho aap ab
-
-I Love you and always will in this life and others as well, if i could get chance to relive life i'd want you to be my gf in every. There is something about you that makes life livable, enjoyable, happy and most importantly makes life look different. I never knew someone could have this much impact on me but for 2 years we've met everything is just better man
-
-Im sorry for hurting you whenever i did and i promise ill makeup for everything 
+I cant imagine spending a single day without you...
 
 Forever yours,
 Ayandu ❤️`;
 
-/* ✨ TYPEWRITER */
-function typeWriter() {
-let i = 0;
-let el = document.getElementById("typing");
-el.innerHTML = "";
-
-function step() {
-if (i < message.length) {
-el.innerHTML += message.charAt(i);
+/* typewriter */
+function typeWriter(){
+let i=0;
+let el=document.getElementById("typing");
+function step(){
+if(i<message.length){
+el.innerHTML+=message[i];
 i++;
-setTimeout(step, 18);
+setTimeout(step,18);
 }
 }
 step();
 }
 
-/* 🎁 OPEN */
-document.getElementById("openBtn").onclick = function() {
-document.getElementById("intro").style.display = "none";
-document.getElementById("mainContent").style.display = "block";
+/* open */
+document.getElementById("openBtn").onclick=function(){
+document.getElementById("intro").style.display="none";
+document.getElementById("mainContent").style.display="block";
 
-let music = document.getElementById("bgmusic");
-music.volume = 0.2;
+let music=document.getElementById("bgmusic");
+music.volume=0.2;
 music.play();
 
 typeWriter();
 };
 
-/* 💌 BUTTON */
-document.getElementById("playBtn").onclick = function() {
-document.getElementById("secret").style.display = "block";
+/* button */
+document.getElementById("playBtn").onclick=function(){
+document.getElementById("secret").style.display="block";
 };
 
-/* 💖 FLOATING HEARTS */
+/* 💖 floating hearts */
 setInterval(()=>{
-let heart=document.createElement("div");
-heart.innerHTML="💖";
-heart.style.position="fixed";
-heart.style.left=Math.random()*100+"vw";
-heart.style.bottom="-20px";
-heart.style.fontSize=(Math.random()*20+15)+"px";
-heart.style.opacity=Math.random();
-heart.style.animation="floatUp 6s linear";
-document.body.appendChild(heart);
-setTimeout(()=>heart.remove(),6000);
+let h=document.createElement("div");
+h.innerHTML="💖";
+h.style.position="fixed";
+h.style.left=Math.random()*100+"vw";
+h.style.bottom="-20px";
+h.style.fontSize="20px";
+h.style.animation="floatUp 6s linear";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),6000);
 },400);
+
+/* 🎞️ slideshow */
+let images=["photo1.jpeg","photo2.jpeg","photo3.jpeg"];
+let i=0;
+setInterval(()=>{
+i=(i+1)%images.length;
+document.getElementById("slide").src=images[i];
+},3000);
+
+/* 🖱️ cursor trail */
+document.addEventListener("mousemove", e=>{
+let t=document.createElement("div");
+t.innerHTML="💗";
+t.style.position="fixed";
+t.style.left=e.clientX+"px";
+t.style.top=e.clientY+"px";
+t.style.pointerEvents="none";
+t.style.opacity=0.7;
+t.style.fontSize="14px";
+document.body.appendChild(t);
+setTimeout(()=>t.remove(),500);
+});
 
 };
 </script>
