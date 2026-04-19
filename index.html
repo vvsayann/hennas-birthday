@@ -43,12 +43,21 @@ background:rgba(255,255,255,0.3);
 border-radius:25px;
 backdrop-filter:blur(10px);
 display:none;
+overflow:visible;
+}
+
+/* ✨ glow (beat reactive) */
+.glow{
+color:#ff3d6e;
+text-shadow:0 0 10px #ff4d6d;
+transition: text-shadow 0.1s linear;
 }
 
 /* typing */
 #typing{
 line-height:1.8;
-word-wrap:break-word;
+word-break:break-word;
+white-space:normal;
 }
 
 /* polaroid */
@@ -114,7 +123,7 @@ pointer-events:none;
 
 <div class="container" id="mainContent">
 
-<h1>Happy Birthday Henna ❤️</h1>
+<h1>Happy Birthday <span class="glow">Henna</span> ❤️</h1>
 
 <button id="letterBtn">Read my letter 💌</button>
 <button id="musicBtn">Pause Music 🎵</button>
@@ -128,7 +137,7 @@ pointer-events:none;
 <div class="polaroid"><img src="photo3.jpeg"></div>
 </div>
 
-<button id="playBtn">Tap this 💌</button>
+<button id="playBtn">Final Surprise 💖</button>
 <div id="secret" style="display:none;">I WILL ALWAYS BE URS ❤️</div>
 
 </div>
@@ -147,23 +156,16 @@ Im sorry for hurting you whenever i did and i promise ill makeup for everything
 Forever yours,
 Ayandu ❤️`;
 
-/* ✨ FIXED TYPEWRITER (NO ... BUG) */
+/* ✨ TYPEWRITER */
 function typeWriter(){
 let i=0;
 let el=document.getElementById("typing");
 el.innerHTML="";
-
 function step(){
 if(i < message.length){
-let char = message.charAt(i);
-
-/* handle line breaks */
-if(char === "\n"){
-el.innerHTML += "<br>";
-}else{
-el.innerHTML += char;
-}
-
+let char = message[i];
+if(char === "\n"){ el.innerHTML += "<br>"; }
+else{ el.innerHTML += char; }
 i++;
 setTimeout(step,15);
 }
@@ -171,23 +173,26 @@ setTimeout(step,15);
 step();
 }
 
-/* open */
+/* 🎁 OPEN */
 openBtn.onclick=function(){
 intro.style.display="none";
 mainContent.style.display="block";
 bgmusic.volume=0.2;
 bgmusic.play();
+
+/* start audio context */
+audioCtx.resume();
 };
 
-/* letter */
+/* 💌 LETTER */
 letterBtn.onclick=typeWriter;
 
-/* secret */
+/* ❤️ FINAL */
 playBtn.onclick=function(){
 secret.style.display="block";
 };
 
-/* music control */
+/* 🎵 MUSIC */
 musicBtn.onclick=function(){
 if(bgmusic.paused){
 bgmusic.play();
@@ -198,12 +203,12 @@ musicBtn.innerText="Play Music 🎵";
 }
 };
 
-/* dark mode */
+/* 🌙 MODE */
 modeBtn.onclick=function(){
 document.body.classList.toggle("dark");
 };
 
-/* hearts */
+/* 💖 FLOAT HEARTS */
 setInterval(()=>{
 let h=document.createElement("div");
 h.innerHTML="💖";
@@ -216,7 +221,7 @@ document.body.appendChild(h);
 setTimeout(()=>h.remove(),6000);
 },400);
 
-/* floating text */
+/* 💬 FLOAT TEXT */
 const texts=["I love you 💖","My girl 💕","Forever us 💞","Henna ❤️"];
 setInterval(()=>{
 let t=document.createElement("div");
@@ -227,6 +232,53 @@ t.style.bottom="-20px";
 document.body.appendChild(t);
 setTimeout(()=>t.remove(),6000);
 },1500);
+
+/* 💗 CURSOR HEART TRAIL */
+document.addEventListener("mousemove",function(e){
+let heart=document.createElement("div");
+heart.innerHTML="💖";
+heart.style.position="fixed";
+heart.style.left=e.clientX+"px";
+heart.style.top=e.clientY+"px";
+heart.style.pointerEvents="none";
+heart.style.transition="0.6s";
+document.body.appendChild(heart);
+setTimeout(()=>{
+heart.style.transform="translateY(-20px)";
+heart.style.opacity="0";
+},10);
+setTimeout(()=>heart.remove(),600);
+});
+
+/* 🎶 BEAT REACTIVE GLOW */
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const source = audioCtx.createMediaElementSource(bgmusic);
+const analyser = audioCtx.createAnalyser();
+
+source.connect(analyser);
+analyser.connect(audioCtx.destination);
+
+analyser.fftSize = 64;
+const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+function animateGlow(){
+requestAnimationFrame(animateGlow);
+analyser.getByteFrequencyData(dataArray);
+
+let sum=0;
+for(let i=0;i<dataArray.length;i++){ sum+=dataArray[i]; }
+let avg=sum/dataArray.length;
+
+let glow = avg/2;
+
+document.querySelector(".glow").style.textShadow = `
+0 0 ${glow}px #ff4d6d,
+0 0 ${glow*2}px #ff4d6d,
+0 0 ${glow*3}px #ff4d6d
+`;
+}
+
+animateGlow();
 
 };
 </script>
